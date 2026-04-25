@@ -45,5 +45,5 @@ export async function getConnectedProviders() {
     return [];
   }
 
-  return accounts.map((account) => account.provider);
+  return accounts.map((account: { provider: string }) => account.provider);
 }
