@@ -30,7 +30,6 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/next-saas:latest
 
       - name: Deploy to EC2
-      - run: echo "EC2_HOST=${{ secrets.EC2_HOST }}"
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
