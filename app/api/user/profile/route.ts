@@ -36,7 +36,7 @@ export async function GET() {
         image: user.image,
         emailVerified: user.emailVerified,
         createdAt: user.createdAt,
-        connectedProviders: user.accounts.map((account: any) => account.provider) || [],
+        connectedProviders: user.accounts.map((account: { provider: string }) => account.provider),
       },
     });
   } catch (error) {
