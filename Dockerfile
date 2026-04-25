@@ -18,17 +18,23 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 
 # ✅ IMPORTANT: generate Prisma client BEFORE build
+# IMPORTANT: ensure correct Prisma engine
 RUN npx prisma generate
 
 RUN npm run build
 
 # 4. Production image
-FROM base AS runner
+# runtime
+FROM node:20-slim AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
 
-# Create non-root user
+RUN apt-get update -y \
+  && apt-get install -y openssl ca-certificates \
+  && rm -rf /var/lib/apt/lists/*
+
+# non-root user
 RUN groupadd -g 1001 nodejs \
   && useradd -u 1001 -g nodejs -s /bin/sh -m nextjs
 
