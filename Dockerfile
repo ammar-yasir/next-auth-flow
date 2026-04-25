@@ -9,9 +9,17 @@ RUN npm ci
 
 # 3. Build
 FROM base AS builder
+
+WORKDIR /app
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
 ENV NEXT_TELEMETRY_DISABLED=1
+
+# ✅ IMPORTANT: generate Prisma client BEFORE build
+RUN npx prisma generate
+
 RUN npm run build
 
 # 4. Production image
